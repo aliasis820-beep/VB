@@ -2,7 +2,7 @@ const { Pool } = require('pg');
 require('dotenv').config();
 
 const pool = new Pool({
-  connectionString: 'postgresql://postgres:Abrar@123@localhost:5432/vb2'
+  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:Abrar@123@localhost:5432/vb2'
 });
 
 // Auto-initialize the trades table if it doesn't exist
