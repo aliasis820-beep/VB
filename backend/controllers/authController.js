@@ -47,6 +47,12 @@ exports.sendOtp = async (req, res) => {
       try {
         await transporter.sendMail(mailOptions);
         console.log(`[SMTP] Successfully dispatched OTP to ${email}`);
+        return res.status(200).json({
+          success: true,
+          deliveryType: 'email',
+          redisType: 'memory',
+          message: 'OTP sent successfully',
+        });
       } catch (smtpError) {
         console.error('[SMTP Error] Failed to send email via Gmail:', smtpError.message);
         // Fallback to MOCK OTP so the app doesn't break locally if SMTP fails
@@ -60,14 +66,13 @@ exports.sendOtp = async (req, res) => {
       }
     } else {
       console.log(`[MOCK OTP] Email: ${email}, OTP: ${otp}`);
+      return res.status(200).json({
+        success: true,
+        deliveryType: 'console_fallback',
+        redisType: 'memory',
+        message: 'Mock OTP generated. Check your backend console.'
+      });
     }
-
-    res.status(200).json({
-      success: true,
-      deliveryType: 'email',
-      redisType: 'memory',
-      message: 'OTP sent successfully',
-    });
   } catch (error) {
     console.error('Error sending OTP:', error);
     res.status(500).json({ success: false, error: 'Failed to send OTP: ' + error.message });
