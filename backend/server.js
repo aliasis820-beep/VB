@@ -19,6 +19,7 @@ app.use('/api', chartRoutes);
 app.use('/api', tradeRoutes);
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/payments', require('./routes/paymentRoutes'));
+app.use('/api/contest', require('./routes/contestRoutes'));
 
 // Setup Socket.io
 const io = new Server(server, {
