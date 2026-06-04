@@ -2,7 +2,9 @@ import axios from 'axios';
 import { auth } from '../firebase';
 import { getAuthToken } from '../utils/authHelper';
 
-const API_BASE_URL = 'http://localhost:5000/api/payments';
+import { API_BASE_URL } from '../config';
+
+const PAYMENTS_API_URL = `${API_BASE_URL}/payments`;
 
 const getAuthHeaders = async () => {
   let localUser = null;
@@ -24,7 +26,7 @@ const getAuthHeaders = async () => {
 export const createOrder = async (amount, type = 'deposit') => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.post(`${API_BASE_URL}/create-order`, { amount, currency: 'INR', type }, headers);
+    const response = await axios.post(`${PAYMENTS_API_URL}/create-order`, { amount, currency: 'INR', type }, headers);
     return response.data;
   } catch (error) {
     console.error('Error creating order:', error);
@@ -35,7 +37,7 @@ export const createOrder = async (amount, type = 'deposit') => {
 export const verifyPayment = async (paymentData) => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.post(`${API_BASE_URL}/verify-payment`, paymentData, headers);
+    const response = await axios.post(`${PAYMENTS_API_URL}/verify-payment`, paymentData, headers);
     return response.data;
   } catch (error) {
     console.error('Error verifying payment:', error);
@@ -46,7 +48,7 @@ export const verifyPayment = async (paymentData) => {
 export const getPaymentHistory = async () => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.get(API_BASE_URL, headers);
+    const response = await axios.get(PAYMENTS_API_URL, headers);
     return response.data;
   } catch (error) {
     console.error('Error fetching payment history:', error);

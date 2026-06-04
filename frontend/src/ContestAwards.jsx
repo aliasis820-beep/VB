@@ -16,8 +16,10 @@ import {
 } from 'lucide-react';
 import './ContestAwards.css';
 
-const API_BASE_URL = 'http://localhost:5000/api/contest';
-const SOCKET_URL = 'http://localhost:5000';
+import { API_BASE_URL as CENTRAL_API_URL, BACKEND_URL } from './config';
+
+const API_BASE_URL = `${CENTRAL_API_URL}/contest`;
+const SOCKET_URL = BACKEND_URL;
 
 const ContestAwards = ({ user, rates, onTradeRedirect }) => {
   const [profile, setProfile] = useState(null);

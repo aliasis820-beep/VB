@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
+import { BACKEND_URL } from '../config';
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const backendUrl = BACKEND_URL;
 const token = localStorage.getItem('vb_token');
 
 const socket = io(backendUrl, {

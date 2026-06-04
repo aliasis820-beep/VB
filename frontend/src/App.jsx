@@ -34,6 +34,7 @@ import {
 } from 'lucide-react';
 import heroGoldOre from './assets/hero_gold_ore.png';
 import './App.css';
+import { API_BASE_URL } from './config';
 import AboutUs from './AboutUs';
 import ContestAwards from './ContestAwards';
 import TradingViewWidget from './charts/TradingViewWidget';
@@ -203,7 +204,7 @@ function App() {
       if (auth && auth.currentUser) {
         token = await auth.currentUser.getIdToken();
       }
-      const res = await fetch('http://localhost:5000/api/contest/admin/participants', {
+      const res = await fetch(`${API_BASE_URL}/contest/admin/participants`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -221,7 +222,7 @@ function App() {
       if (auth && auth.currentUser) {
         token = await auth.currentUser.getIdToken();
       }
-      const res = await fetch(`http://localhost:5000/api/contest/admin/trades/${email}`, {
+      const res = await fetch(`${API_BASE_URL}/contest/admin/trades/${email}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -239,7 +240,7 @@ function App() {
       if (auth && auth.currentUser) {
         token = await auth.currentUser.getIdToken();
       }
-      const res = await fetch('http://localhost:5000/api/contest/admin/update-participant', {
+      const res = await fetch(`${API_BASE_URL}/contest/admin/update-participant`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -276,7 +277,7 @@ function App() {
       if (auth && auth.currentUser) {
         token = await auth.currentUser.getIdToken();
       }
-      const res = await fetch('http://localhost:5000/api/contest/admin/reset-participant', {
+      const res = await fetch(`${API_BASE_URL}/contest/admin/reset-participant`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -306,7 +307,7 @@ function App() {
       if (auth && auth.currentUser) {
         token = await auth.currentUser.getIdToken();
       }
-      const res = await fetch('http://localhost:5000/api/contest/admin/generate-mock', {
+      const res = await fetch(`${API_BASE_URL}/contest/admin/generate-mock`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`
@@ -763,7 +764,7 @@ function App() {
     setOtpTimer(120);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/send-otp", {
+      const response = await fetch(`${API_BASE_URL}/auth/send-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -809,7 +810,7 @@ function App() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/verify-otp", {
+      const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -892,7 +893,7 @@ function App() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/verify-otp", {
+      const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -1326,7 +1327,7 @@ function App() {
                                   if (window.confirm(`Are you sure you want to delete ${c.name}'s account? This will permanently delete:\n- Client profile data\n- Firebase authentication account\n- All transaction history\n\nThis action cannot be undone.`)) {
                                     try {
                                       // Call backend to delete Firebase user
-                                      const response = await fetch("http://localhost:5000/api/admin/delete-user", {
+                                      const response = await fetch(`${API_BASE_URL}/admin/delete-user`, {
                                         method: "POST",
                                         headers: {
                                           "Content-Type": "application/json"

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { auth } from '../../firebase';
 import { getAuthToken } from '../../utils/authHelper';
+import { API_BASE_URL } from '../../config';
 
 const BuySellButtons = ({ 
   user,
@@ -53,7 +54,7 @@ const BuySellButtons = ({
           return;
         }
 
-        const res = await axios.post('http://localhost:5000/api/contest/trade', {
+        const res = await axios.post(`${API_BASE_URL}/contest/trade`, {
           symbol,
           price: currentPrice,
           type,
@@ -77,7 +78,7 @@ const BuySellButtons = ({
         }
         
         // Standard paper trade with authentication scoping
-        const res = await axios.post('http://localhost:5000/api/' + type.toLowerCase(), {
+        const res = await axios.post(`${API_BASE_URL}/${type.toLowerCase()}`, {
           symbol,
           price: currentPrice,
           quantity: qty,

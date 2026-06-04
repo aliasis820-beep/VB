@@ -10,8 +10,10 @@ import { auth } from '../../firebase';
 import { getAuthToken } from '../../utils/authHelper';
 import './LiveChart.css';
 
-const SOCKET_URL = 'http://localhost:5000';
-const API_URL = 'http://localhost:5000/api';
+import { API_BASE_URL as CENTRAL_API_URL, BACKEND_URL } from '../../config';
+
+const SOCKET_URL = BACKEND_URL;
+const API_URL = CENTRAL_API_URL;
 
 const LiveChartWidget = ({ user }) => {
   const [symbol, setSymbol] = useState('TSLA');
