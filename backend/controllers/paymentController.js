@@ -4,11 +4,16 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-// Initialize Razorpay instance
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+// Initialize Razorpay instance safely
+let razorpay = null;
+if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
+  razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+} else {
+  console.warn("WARNING: RAZORPAY_KEY_ID and/or RAZORPAY_KEY_SECRET not set. Razorpay features will be disabled.");
+}
 
 exports.createOrder = async (req, res) => {
   try {
@@ -48,6 +53,9 @@ exports.createOrder = async (req, res) => {
     }
 
     // Handle Deposit (Razorpay Create Order)
+    if (!razorpay) {
+      return res.status(500).json({ success: false, error: 'Razorpay is not configured on this server' });
+    }
     // Razorpay amount is in smallest currency unit (e.g., paise for INR)
     const options = {
       amount: amount * 100,
@@ -87,6 +95,10 @@ exports.verifyPayment = async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
     const user = req.user;
+
+    if (!process.env.RAZORPAY_KEY_SECRET) {
+      return res.status(500).json({ success: false, error: 'Razorpay secret key is not configured' });
+    }
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
 
